@@ -53,22 +53,4 @@ public class TransacaoFinanceiraService {
         
     }
     
-     /*public List<ProdutoDTO> execute() {
-        ArrayList<ProdutoDTO> produtos = new ArrayList<>();
-        try {
-            try ( final FileInputStream fisTargetFile = new FileInputStream(new File("src/main/resources/sample_data.txt")) ) {
-                List<String> linesStr = IOUtils.readLines(fisTargetFile, StandardCharsets.UTF_8);
-                if (linesStr != null) {
-                    linesStr
-                        .stream()
-                        .map(ProdutoDTO::new)
-                        .forEachOrdered(edi -> produtos.add((ProdutoDTO) edi.readLine()) );
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return produtos;
-    }
-    */
 }
