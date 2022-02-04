@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
+ * Entidade que armazena histórico dos arquivos persistidos
  * @author patrik
  */
 @Entity

@@ -16,6 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entidade que armazena as transações
+ * @author patrik
+ *
+ */
 @Entity
 @Table(name = "transacao_financeira")
 public class TransacaoFinanceira implements Serializable {

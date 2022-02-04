@@ -2,7 +2,8 @@ package com.bycoders.cnabdemo.enums;
 
 /**
  *
- * @author patrik Enum que defino os tipos de transações mapeadas no sistema
+ * @author patrik 
+ * Enum que define os tipos de transações mapeadas no sistema
  * Identificado pelo atributo tipo, possui uma descrição e é vinculado a uma
  * direção (entrada ou saída)
  */

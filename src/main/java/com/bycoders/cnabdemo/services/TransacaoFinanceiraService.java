@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 /**
  *
  * @author patrik
+ * 
+ * Executa o processamento do arquivo CNAB, considerando as configurações
+ * já realizadas no DTO
+ * Também cria a entidade para persistência e invoca o repository para 
+ * executar o insert
+ * 
  */
 @Service
 public class TransacaoFinanceiraService {
@@ -23,6 +29,11 @@ public class TransacaoFinanceiraService {
 	@Autowired
 	TransacaoFinanceiraRepository transacaoFinanceiraRepository;
 	
+	/**
+	 * Processa um arquivo CNAB e persiste os dados no banco de dados
+	 * @param fileName - Arquivo (incluindo Path) que será processado
+	 * @throws Dispara um RuntimeException caso não seja possível parsear o arquivo
+	 */
     public void processar(String fileName) {
         ArrayList<TransacaoFinanceiraDTO> transacoes = new ArrayList<>();
         try {

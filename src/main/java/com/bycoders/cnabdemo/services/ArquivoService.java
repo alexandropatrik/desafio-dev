@@ -14,6 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bycoders.cnabdemo.config.FileStorageProperties;
 import com.bycoders.cnabdemo.exceptions.FileStorageException;
 
+
+/**
+ * 
+ * @author patrik
+ *
+ * Serviço que armazena o arquivo em disco antes de processar 
+ * e persistir os dados no banco de dados
+ * 
+ */
 @Service
 public class ArquivoService {
 

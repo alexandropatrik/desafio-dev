@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,15 @@ import com.bycoders.cnabdemo.services.ArquivoService;
 import com.bycoders.cnabdemo.services.TransacaoFinanceiraService;
 import com.bycoders.cnabdemo.utils.ResourceResponseUtil;
 
+
+/**
+ * 
+ * @author patrik
+ *
+ * Endpoint de upload e processamento de arquivos
+ * Também expõe serviço para listagem
+ * 
+ */
 @RestController
 @RequestMapping("/transacao")
 public class TransacaoFinanceiraResource {
@@ -32,6 +42,16 @@ public class TransacaoFinanceiraResource {
     @Autowired
     private ArquivoService fileStorageService;
 	
+    /**
+     * Endpoint para processamento do arquivo
+     * Utilizar o content-type multpart/form-data
+     * @param file
+     * @return Retorna um objeto com o HttpStatus statusCode, message e payload 
+     * 200 - OK - se conseguiu processar
+     * 400 - BAD_REQUEST - se o arquivo já foi processado
+     * 500 - INTERNAL_SERVER_ERROR - se ocorreu outro erro desconhecido
+     * 
+     */
     @PostMapping("/processar")
     @Transactional
     public ResponseEntity<ResourceResponseUtil> processarTransacao(@RequestParam("file") MultipartFile file) {
@@ -45,6 +65,11 @@ public class TransacaoFinanceiraResource {
         arquivoCnabRepository.save(new ArquivoCnab(new File(fileName).getName()));
     	
     	return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/status")
+    public String status() {
+    	return "OK";
     }
 	
 }
