@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "transacao_financeira")
-public class TransacaoFinanceira extends EDITextInterpreter implements Serializable {
+public class TransacaoFinanceira implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -24,8 +26,10 @@ public class TransacaoFinanceira extends EDITextInterpreter implements Serializa
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
     private ETipoTransacao tipoTransacao;
-    private LocalDate data;
+    @Column(name = "data_transacao")
+    private LocalDate dataTransacao;
     private BigDecimal valor;
     private String cpf;
     private String cartao;
@@ -52,12 +56,12 @@ public class TransacaoFinanceira extends EDITextInterpreter implements Serializa
         this.tipoTransacao = tipoTransacao;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataTransacao() {
+        return dataTransacao;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataTransacao(LocalDate data) {
+        this.dataTransacao = data;
     }
 
     public BigDecimal getValor() {

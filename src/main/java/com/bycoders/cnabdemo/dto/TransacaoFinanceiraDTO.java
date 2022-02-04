@@ -1,11 +1,14 @@
 package com.bycoders.cnabdemo.dto;
 
 import com.bycoders.cnabdemo.annotations.EDITextField;
+import com.bycoders.cnabdemo.entities.TransacaoFinanceira;
 import com.bycoders.cnabdemo.enums.ETipoTransacao;
+import com.bycoders.cnabdemo.helper.EDITextInterpreter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
     
 /*
@@ -27,62 +30,34 @@ import java.time.LocalTime;
  *
  * @author patrik
  */
-public class TransacaoFinanceiraDTO implements Serializable {
+public class TransacaoFinanceiraDTO extends EDITextInterpreter implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private Long id;
-    @EDITextField(start = 1, end = 2)
-    private ETipoTransacao tipoTransacao;
-    @EDITextField(start = 2, end = 10)
-    private LocalDate data;
-    @EDITextField(start = 10, end = 20)
-    private BigDecimal valor;
-    @EDITextField(start = 20, end = 31)
+    @EDITextField(start = 0, end = 1)
+    private String tipoTransacao;
+    @EDITextField(start = 1, end = 9)
+    private String data;
+    @EDITextField(start = 9, end = 19)
+    private String valor;
+    @EDITextField(start = 19, end = 30)
     private String cpf;
-    @EDITextField(start = 31, end = 43)
+    @EDITextField(start = 30, end = 42)
     private String cartao;
-    @EDITextField(start = 43, end = 49)
-    private LocalTime hora;
-    @EDITextField(start = 49, end = 63)
+    @EDITextField(start = 42, end = 48)
+    private String hora;
+    @EDITextField(start = 48, end = 62)
     private String dono;
-    @EDITextField(start = 63, end = 82)
+    @EDITextField(start = 62, end = 80)
     private String loja;
 
     public TransacaoFinanceiraDTO() {
     }
 
-    public Long getId() {
-        return id;
+    public TransacaoFinanceiraDTO(String ilinha) {
+        super.setLinha(ilinha);
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ETipoTransacao getTipoTransacao() {
-        return tipoTransacao;
-    }
-
-    public void setTipoTransacao(ETipoTransacao tipoTransacao) {
-        this.tipoTransacao = tipoTransacao;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
+    
 
     public String getCpf() {
         return cpf;
@@ -100,14 +75,6 @@ public class TransacaoFinanceiraDTO implements Serializable {
         this.cartao = cartao;
     }
 
-    public LocalTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-
     public String getDono() {
         return dono;
     }
@@ -123,7 +90,60 @@ public class TransacaoFinanceiraDTO implements Serializable {
     public void setLoja(String loja) {
         this.loja = loja;
     }
+
+	public String getTipoTransacao() {
+		return tipoTransacao;
+	}
+
+	public void setTipoTransacao(String tipoTransacao) {
+		this.tipoTransacao = tipoTransacao;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+
+	public String getHora() {
+		return hora;
+	}
+
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
+
+	@Override
+	public String toString() {
+		return "TransacaoFinanceiraDTO [tipoTransacao=" + tipoTransacao + ", data=" + data + ", valor=" + valor
+				+ ", cpf=" + cpf + ", cartao=" + cartao + ", hora=" + hora + ", dono=" + dono + ", loja=" + loja + "]";
+	}
     
+	
+	public TransacaoFinanceira toEntity() {
+		TransacaoFinanceira t = new TransacaoFinanceira();
+		t.setTipoTransacao(ETipoTransacao.getTipoTransacao(Integer.parseInt(tipoTransacao)));
+		DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyyMMdd");
+		t.setDataTransacao(LocalDate.parse(data, formatterDate));
+		t.setValor(new BigDecimal(valor).divide(BigDecimal.valueOf(100L)));
+		t.setCpf(cpf.trim());
+		t.setCartao(cartao.trim());
+		t.setDono(dono.trim());
+		t.setLoja(loja.trim());
+		DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HHmmss");
+		t.setHora(LocalTime.parse(hora, formatterTime));
+		return t;
+	}
     
     
 }
