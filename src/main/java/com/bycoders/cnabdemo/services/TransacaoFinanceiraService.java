@@ -9,32 +9,24 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author patrik
  */
-@RestController
-@RequestMapping("/transacao")
+@Service
 public class TransacaoFinanceiraService {
     
 	@Autowired
 	TransacaoFinanceiraRepository transacaoFinanceiraRepository;
 	
-    @PostMapping("/processar")
-    public void processar() {
-        
+    public void processar(String fileName) {
         ArrayList<TransacaoFinanceiraDTO> transacoes = new ArrayList<>();
-        
         try {
-            try ( final FileInputStream fisTargetFile = new FileInputStream(new File("src/main/resources/example/CNAB.txt")) ) {
+            try ( final FileInputStream fisTargetFile = new FileInputStream(new File(fileName)) ) {
                 List<String> linesStr = IOUtils.readLines(fisTargetFile, StandardCharsets.UTF_8);
                 if (linesStr != null) {
                     linesStr
@@ -44,13 +36,12 @@ public class TransacaoFinanceiraService {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(TransacaoFinanceiraService.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            throw new RuntimeException(String.format("Erro ao processar o arquivo. \nDetalhes: %s ", ex.getLocalizedMessage()));
         }
-        
         transacoes.stream().forEach(t -> {
         	transacaoFinanceiraRepository.save(t.toEntity());
         });
-        
     }
     
 }
