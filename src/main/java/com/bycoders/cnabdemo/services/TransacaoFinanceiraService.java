@@ -62,12 +62,17 @@ public class TransacaoFinanceiraService {
         transacoes.stream().forEach(t -> transacaoFinanceiraRepository.save(t.toEntity()));
     }
 
-	public ListaTransacaoDTO findTransacoes() {
+	public ListaTransacaoDTO findTransacoes(String loja) {
 		ListaTransacaoDTO ret = new ListaTransacaoDTO();
-		ret.getTransacaoList().addAll(ModelMapperUtils.mapList(modelMapper, new ArrayList<TransacaoFinanceira>(transacaoFinanceiraRepository.findAll()),
+		ret.setLoja(loja);
+		ret.getTransacaoList().addAll(ModelMapperUtils.mapList(modelMapper, new ArrayList<TransacaoFinanceira>(transacaoFinanceiraRepository.findByLoja(loja)),
 				TransacaoDTO.class));
 		ret.totalizar();
 		return ret;
+	}
+	
+	public List<String> findLojas() {
+		return transacaoFinanceiraRepository.findLojasDistinct();
 	}
     
 }

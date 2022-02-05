@@ -6,6 +6,8 @@ import java.util.List;
 
 public class ListaTransacaoDTO {
 
+	private String loja;
+	private String dono;
 	private List<TransacaoDTO> transacaoList = new ArrayList<>();
 	private BigDecimal totalizador;
 	
@@ -26,10 +28,29 @@ public class ListaTransacaoDTO {
 				stream().
 				map(TransacaoDTO::getValor).
 				reduce(BigDecimal.ZERO, BigDecimal::add);
+		if (!transacaoList.isEmpty()) {
+			setDono(transacaoList.get(0).getDono());
+		}
 	}
 
 	public BigDecimal getTotalizador() {
 		return totalizador;
+	}
+
+	public String getLoja() {
+		return loja;
+	}
+
+	public void setLoja(String loja) {
+		this.loja = loja;
+	}
+
+	public String getDono() {
+		return dono;
+	}
+
+	public void setDono(String dono) {
+		this.dono = dono;
 	}
 
 	
