@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>CNAB List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	
+	<style>
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		}
+	</style>
+</head>
+
+<body>
+
+	<section class="my-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mx-auto">
+					<h2>CNAB - Listagem de Transações</h2>
+					<p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+					<form method="get" th:action="@{/lojas}">
+						<span th:each="item : ${transacoes}"> </span>
+						
+						<table>
+							<tbody th:each="conta : ${transacoes}">
+								<tr>
+									<td><strong><span th:text="${conta.loja}"></strong></td >
+									<td>Dono: <span th:text="${conta.dono}">></td >
+									<table>
+										<thead>
+											<tr>
+												<th colspan="4"> Tipo </th>
+												<th colspan="4"> Data </th>
+												<th colspan="4"> Valor </th>
+												<th colspan="4"> CPF </th>
+												<th colspan="4"> Cartão </th>
+												<th colspan="4"> Hora </th>
+												<th colspan="4"> Dono </th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:if="${conta.transacaoList.empty}">
+												<td colspan="2"> Nenhuma transação importada </td>
+											</tr>
+											<tr th:each="item : ${conta.transacaoList}">
+												<td colspan="4"><span th:text="${item.tipoTransacao}"> Tipo </span></td >
+												<td colspan="2"><span th:text="${item.dataTransacao}"> Data </span ></td >
+												<td colspan="4" style="text-align:right"><span th:text="${item.valor}"> Valor </span></td >
+												<td colspan="4"><span th:text="${item.cpf}"> CPF </span></td >
+												<td colspan="4"><span th:text="${item.cartao}"> Cartão </span></td >
+												<td colspan="4"><span th:text="${item.hora}"> Hora </span></td >
+												<td colspan="4"><span th:text="${item.dono}"> Dono </span></td >
+											</tr>
+										</tbody >
+										<tfoot>
+											<br />
+											Saldo da conta: <span th:text="${conta.totalizador}" />
+										</tfoot>
+									</table>
+									<br />
+								</tr>
+							</tbody >
+						</table>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+
+
+</html>
