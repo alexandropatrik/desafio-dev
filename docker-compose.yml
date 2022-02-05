@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+
+  dbcnab:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: cnab
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    logging:
+      driver: "none"
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  cnab-api:
+    image: alexandropatrik/cnab-demo:v1
+    depends_on:
+      - dbcnab
+    environment:
+      DB_URL: jdbc:postgresql://dbcnab:5432/cnab
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+volumes:
+  db-data:
