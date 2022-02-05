@@ -1,6 +1,7 @@
 package com.bycoders.cnabdemo.resource;
 
 import java.io.File;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bycoders.cnabdemo.dto.ListaTransacaoDTO;
 import com.bycoders.cnabdemo.entities.ArquivoCnab;
 import com.bycoders.cnabdemo.repositories.ArquivoCnabRepository;
 import com.bycoders.cnabdemo.services.ArquivoService;
@@ -66,10 +68,11 @@ public class TransacaoFinanceiraResource {
     	
     	return ResponseEntity.ok().build();
     }
-    
-    @GetMapping("/status")
-    public String status() {
-    	return "OK";
+        
+    @GetMapping("/listar")
+    public ResponseEntity<ResourceResponseUtil> listar() {
+    	ListaTransacaoDTO lista = transacaoFinanceiraService.findTransacoes();
+    	return ResponseEntity.status(HttpStatus.OK).body(new ResourceResponseUtil(HttpStatus.OK, "", lista));
     }
 	
 }

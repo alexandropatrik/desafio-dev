@@ -2,6 +2,7 @@ package com.bycoders.cnabdemo.dto;
 
 import com.bycoders.cnabdemo.annotations.EDITextField;
 import com.bycoders.cnabdemo.entities.TransacaoFinanceira;
+import com.bycoders.cnabdemo.enums.EDirecaoTransacao;
 import com.bycoders.cnabdemo.enums.ETipoTransacao;
 import com.bycoders.cnabdemo.helper.EDITextInterpreter;
 import java.io.Serializable;
@@ -122,7 +123,7 @@ public class TransacaoFinanceiraDTO extends EDITextInterpreter implements Serial
 		t.setTipoTransacao(ETipoTransacao.getTipoTransacao(Integer.parseInt(tipoTransacao)));
 		DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyyMMdd");
 		t.setDataTransacao(LocalDate.parse(data, formatterDate));
-		t.setValor(new BigDecimal(valor).divide(BigDecimal.valueOf(100L)));
+		t.setValor(new BigDecimal(valor).divide(BigDecimal.valueOf(100L)).multiply(t.getTipoTransacao().getDirecao().equals(EDirecaoTransacao.ENTRADA) ? BigDecimal.ONE : new BigDecimal(-1)));
 		t.setCpf(cpf.trim());
 		t.setCartao(cartao.trim());
 		t.setDono(dono.trim());

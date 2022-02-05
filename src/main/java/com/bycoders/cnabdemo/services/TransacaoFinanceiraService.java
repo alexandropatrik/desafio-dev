@@ -1,8 +1,12 @@
 package com.bycoders.cnabdemo.services;
 
+import com.bycoders.cnabdemo.dto.ListaTransacaoDTO;
+import com.bycoders.cnabdemo.dto.TransacaoDTO;
 import com.bycoders.cnabdemo.dto.TransacaoFinanceiraDTO;
+import com.bycoders.cnabdemo.entities.TransacaoFinanceira;
 import com.bycoders.cnabdemo.exceptions.CnabdemoGenericException;
 import com.bycoders.cnabdemo.repositories.TransacaoFinanceiraRepository;
+import com.bycoders.cnabdemo.utils.ModelMapperUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransacaoFinanceiraService {
     
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@Autowired
 	TransacaoFinanceiraRepository transacaoFinanceiraRepository;
 	
@@ -53,5 +61,13 @@ public class TransacaoFinanceiraService {
         }
         transacoes.stream().forEach(t -> transacaoFinanceiraRepository.save(t.toEntity()));
     }
+
+	public ListaTransacaoDTO findTransacoes() {
+		ListaTransacaoDTO ret = new ListaTransacaoDTO();
+		ret.getTransacaoList().addAll(ModelMapperUtils.mapList(modelMapper, new ArrayList<TransacaoFinanceira>(transacaoFinanceiraRepository.findAll()),
+				TransacaoDTO.class));
+		ret.totalizar();
+		return ret;
+	}
     
 }
