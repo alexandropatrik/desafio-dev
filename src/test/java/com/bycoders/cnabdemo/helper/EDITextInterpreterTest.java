@@ -1,24 +1,21 @@
 package com.bycoders.cnabdemo.helper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bycoders.cnabdemo.CnabDemoApplication;
 import com.bycoders.cnabdemo.dto.TransacaoFinanceiraDTO;
+import com.bycoders.cnabdemo.entities.TransacaoFinanceira;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = CnabDemoApplication.class)
-public class EDITextInterpreterTest {
+class EDITextInterpreterTest {
 
 	@Test
 	public void testReadLine() {
 		TransacaoFinanceiraDTO t = new TransacaoFinanceiraDTO();
-		t.setTipoTransacao("FINANCIAMENTO");
+		t.setTipoTransacao("3");
 		t.setData("20190301");
 		t.setValor("0000014200");
 		t.setCpf("09620676017");
@@ -30,23 +27,26 @@ public class EDITextInterpreterTest {
 		EDITextInterpreter edi = new TransacaoFinanceiraDTO("3201903010000014200096206760174753****3153153453JOÃO MACEDO   BAR DO JOÃO       ");
 		edi.readLine();
 		
-		assertEquals(edi, t);
 		
-		TransacaoFinanceiraDTO t2 = (TransacaoFinanceiraDTO)edi;
-		assertEquals(t.getTipoTransacao(), t2.getTipoTransacao());
-		assertEquals(t.getData(), t2.getData());
-		assertEquals(t.getValor(), t2.getValor());
-		assertEquals(t.getCpf(), t2.getCpf());
-		assertEquals(t.getCartao(), t2.getCartao());
-		assertEquals(t.getHora(), t2.getHora());
-		assertEquals(t.getDono(), t2.getDono());
-		assertEquals(t.getLoja(), t2.getLoja());
+		TransacaoFinanceira t1 = t.toEntity();
+		TransacaoFinanceira t2 = ((TransacaoFinanceiraDTO)edi).toEntity();
 		
-		assertEquals(Boolean.TRUE, t.equals(t2));
+		assertEquals(t1, t2);
+		
+		assertEquals(t1.getTipoTransacao(), t2.getTipoTransacao());
+		assertEquals(Boolean.TRUE, t1.getDataTransacao().equals(t2.getDataTransacao()));
+		assertEquals(t1.getValor(), t2.getValor());
+		assertEquals(t1.getCpf(), t2.getCpf());
+		assertEquals(t1.getCartao(), t2.getCartao());
+		assertEquals(t1.getHora(), t2.getHora());
+		assertEquals(t1.getDono(), t2.getDono());
+		assertEquals(t1.getLoja(), t2.getLoja());
+		
+		assertEquals(Boolean.TRUE, t1.equals(t2));
 	}
 
 	@Test
-	public void testSetLinha() {
+	void testSetLinha() {
 		String ilinha = "";
 		EDITextInterpreter instance = new EDITextInterpreterImpl();
 		instance.setLinha(ilinha);

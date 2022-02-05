@@ -2,7 +2,6 @@ package com.bycoders.cnabdemo.resource;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -74,9 +73,7 @@ public class TransacaoFinanceiraResource {
     @GetMapping("/listar")
     public ResponseEntity<ResourceResponseUtil> listar() {
     	List<ListaTransacaoDTO> lista = new ArrayList<>(); 
-    	transacaoFinanceiraService.findLojas().stream().forEach(loja -> {
-    		lista.add(transacaoFinanceiraService.findTransacoes(loja));
-    	});
+    	transacaoFinanceiraService.findLojas().stream().forEach(loja -> lista.add(transacaoFinanceiraService.findTransacoes(loja)));
     	return ResponseEntity.status(HttpStatus.OK).body(new ResourceResponseUtil(HttpStatus.OK, "", lista));
     }
     

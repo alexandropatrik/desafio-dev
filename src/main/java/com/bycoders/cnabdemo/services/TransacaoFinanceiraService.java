@@ -43,7 +43,7 @@ public class TransacaoFinanceiraService {
 	 * @param fileName - Arquivo (incluindo Path) que será processado
 	 * @throws Dispara um RuntimeException caso não seja possível parsear o arquivo
 	 */
-    public void processar(String fileName) {
+    public boolean processar(String fileName) {
         ArrayList<TransacaoFinanceiraDTO> transacoes = new ArrayList<>();
         try {
             try ( final FileInputStream fisTargetFile = new FileInputStream(new File(fileName)) ) {
@@ -60,6 +60,7 @@ public class TransacaoFinanceiraService {
             throw new CnabdemoGenericException(String.format("Erro ao processar o arquivo. %nDetalhes: %s ", ex.getLocalizedMessage()));
         }
         transacoes.stream().forEach(t -> transacaoFinanceiraRepository.save(t.toEntity()));
+		return true;
     }
 
 	public ListaTransacaoDTO findTransacoes(String loja) {

@@ -16,7 +16,9 @@ import javax.persistence.Table;
 @Table(name = "arquivo_cnab")
 public class ArquivoCnab implements Serializable {
     
-    @Id
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;

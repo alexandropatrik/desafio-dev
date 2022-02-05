@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,8 +28,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bycoders.cnabdemo.dto.ListaTransacaoDTO;
-import com.bycoders.cnabdemo.dto.TransacaoDTO;
 import com.bycoders.cnabdemo.resource.TransacaoFinanceiraResource;
 import com.bycoders.cnabdemo.services.TransacaoFinanceiraService;
 import com.bycoders.cnabdemo.utils.ResourceResponseUtil;
@@ -46,9 +43,6 @@ import com.bycoders.cnabdemo.utils.ResourceResponseUtil;
 @Controller
 public class HomePageController {
 
-	@Value("${spring.application.name}")
-    String appName;
-	
 	String serverUrl = "";
 	
 	HomePageController(@Value("${server.port:8080}") String apiPort) {
@@ -63,7 +57,6 @@ public class HomePageController {
 	
     @GetMapping("/")
     public String homePage(Model model) {
-        model.addAttribute("appName", appName);
         return "home";
     }
     
@@ -78,7 +71,7 @@ public class HomePageController {
      * @throws JSONException 
      */
     @PostMapping("/upload")
-    public String uploadFile(Model model, @RequestParam("file") MultipartFile file, RedirectAttributes attributes) throws IOException, JSONException {
+    public String uploadFile(Model model, @RequestParam("file") MultipartFile file, RedirectAttributes attributes) throws JSONException {
     	RestTemplate restTemplate = new RestTemplate();
     	
     	HttpHeaders headers = new HttpHeaders();
@@ -111,8 +104,6 @@ public class HomePageController {
      */
     @GetMapping("/listar")
     public String showAll(Model model) {
-    	ListaTransacaoDTO transacoes = new ListaTransacaoDTO();
-    	
     	RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<ResourceResponseUtil> response = restTemplate.exchange(
         		URI.create(serverUrl.concat("/transacao/listar")), 
@@ -120,11 +111,8 @@ public class HomePageController {
           new ParameterizedTypeReference<ResourceResponseUtil>(){});
 
         ResourceResponseUtil result = response.getBody();
-        ArrayList<LinkedHashMap<String, Object>> map = (ArrayList<LinkedHashMap<String, Object>>)result.getPayload();
-        //List<TransacaoDTO> tr = (List<TransacaoDTO>)map.get("transacaoList");
-        //transacoes.getTransacaoList().addAll(tr);
+        ArrayList<LinkedHashMap<String, Object>> map = result != null ? (ArrayList<LinkedHashMap<String, Object>>)result.getPayload() : null;
     	model.addAttribute("transacoes", map);
-    	//model.addAttribute("totalizador", map.get("totalizador"));
     	return "result-list";
     }
     

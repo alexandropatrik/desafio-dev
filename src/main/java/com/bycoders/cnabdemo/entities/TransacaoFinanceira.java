@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "transacao_financeira")
 public class TransacaoFinanceira implements Serializable {
     
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,7 @@ public class TransacaoFinanceira implements Serializable {
     private String loja;
 
     public TransacaoFinanceira() {
+    	/* construtor default */
     }
 
     public Long getId() {
