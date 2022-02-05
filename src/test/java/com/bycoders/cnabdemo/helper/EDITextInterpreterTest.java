@@ -42,7 +42,7 @@ public class EDITextInterpreterTest {
 		assertEquals(t.getDono(), t2.getDono());
 		assertEquals(t.getLoja(), t2.getLoja());
 		
-		assertTrue(t.equals(t2));
+		assertEquals(Boolean.TRUE, t.equals(t2));
 	}
 
 	@Test

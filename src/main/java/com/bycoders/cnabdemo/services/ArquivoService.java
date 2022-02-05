@@ -12,7 +12,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bycoders.cnabdemo.config.FileStorageProperties;
-import com.bycoders.cnabdemo.exceptions.CnabdemoGenericException;
 import com.bycoders.cnabdemo.exceptions.FileStorageException;
 
 

@@ -4,11 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bycoders.cnabdemo.enums.EDirecaoTransacao;
-
 public class ListaTransacaoDTO {
 
-	private List<TransacaoDTO> transacaoList = new ArrayList<TransacaoDTO>();
+	private List<TransacaoDTO> transacaoList = new ArrayList<>();
 	private BigDecimal totalizador;
 	
 	public ListaTransacaoDTO() {
@@ -26,7 +24,7 @@ public class ListaTransacaoDTO {
 	public void totalizar() {
 		totalizador = transacaoList.
 				stream().
-				map(e -> e.getValor()).
+				map(TransacaoDTO::getValor).
 				reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
