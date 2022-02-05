@@ -1,7 +1,6 @@
 package com.bycoders.cnabdemo.entities;
 
 import com.bycoders.cnabdemo.enums.ETipoTransacao;
-import com.bycoders.cnabdemo.helper.EDITextInterpreter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;

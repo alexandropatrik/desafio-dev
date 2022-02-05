@@ -55,7 +55,7 @@ public class TransacaoFinanceiraResource {
     @PostMapping("/processar")
     @Transactional
     public ResponseEntity<ResourceResponseUtil> processarTransacao(@RequestParam("file") MultipartFile file) {
-    	if (arquivoCnabRepository.findByNome(file.getOriginalFilename()).size() > 0) {
+    	if (!arquivoCnabRepository.findByNome(file.getOriginalFilename()).isEmpty()) {
     		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResourceResponseUtil(HttpStatus.BAD_REQUEST, String.format("Arquivo com o nome %s já processado", file.getOriginalFilename()), null));
     	}
 

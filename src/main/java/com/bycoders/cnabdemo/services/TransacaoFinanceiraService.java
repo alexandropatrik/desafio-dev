@@ -1,6 +1,7 @@
 package com.bycoders.cnabdemo.services;
 
 import com.bycoders.cnabdemo.dto.TransacaoFinanceiraDTO;
+import com.bycoders.cnabdemo.exceptions.CnabdemoGenericException;
 import com.bycoders.cnabdemo.repositories.TransacaoFinanceiraRepository;
 
 import java.io.File;
@@ -48,11 +49,9 @@ public class TransacaoFinanceiraService {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new RuntimeException(String.format("Erro ao processar o arquivo. \nDetalhes: %s ", ex.getLocalizedMessage()));
+            throw new CnabdemoGenericException(String.format("Erro ao processar o arquivo. %nDetalhes: %s ", ex.getLocalizedMessage()));
         }
-        transacoes.stream().forEach(t -> {
-        	transacaoFinanceiraRepository.save(t.toEntity());
-        });
+        transacoes.stream().forEach(t -> transacaoFinanceiraRepository.save(t.toEntity()));
     }
     
 }

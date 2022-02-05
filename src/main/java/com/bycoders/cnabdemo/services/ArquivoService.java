@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bycoders.cnabdemo.config.FileStorageProperties;
+import com.bycoders.cnabdemo.exceptions.CnabdemoGenericException;
 import com.bycoders.cnabdemo.exceptions.FileStorageException;
 
 
@@ -39,7 +40,10 @@ public class ArquivoService {
 		}
 	}
 
-	public String storeFile(MultipartFile file) {
+	public String storeFile(MultipartFile file) throws FileStorageException {
+		if (file == null) {
+			throw new FileStorageException("O arquivo para upload não pode ser nulo");
+		}
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		try {
 			Path targetLocation = this.fileStorageLocation.resolve(fileName);

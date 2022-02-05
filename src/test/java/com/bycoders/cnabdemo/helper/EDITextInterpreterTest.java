@@ -1,6 +1,7 @@
 package com.bycoders.cnabdemo.helper;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,20 @@ public class EDITextInterpreterTest {
 		
 		EDITextInterpreter edi = new TransacaoFinanceiraDTO("3201903010000014200096206760174753****3153153453JOÃO MACEDO   BAR DO JOÃO       ");
 		edi.readLine();
+		
 		assertEquals(edi, t);
+		
+		TransacaoFinanceiraDTO t2 = (TransacaoFinanceiraDTO)edi;
+		assertEquals(t.getTipoTransacao(), t2.getTipoTransacao());
+		assertEquals(t.getData(), t2.getData());
+		assertEquals(t.getValor(), t2.getValor());
+		assertEquals(t.getCpf(), t2.getCpf());
+		assertEquals(t.getCartao(), t2.getCartao());
+		assertEquals(t.getHora(), t2.getHora());
+		assertEquals(t.getDono(), t2.getDono());
+		assertEquals(t.getLoja(), t2.getLoja());
+		
+		assertTrue(t.equals(t2));
 	}
 
 	@Test

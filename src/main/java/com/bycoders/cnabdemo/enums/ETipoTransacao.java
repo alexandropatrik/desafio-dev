@@ -44,7 +44,7 @@ public enum ETipoTransacao {
 
     public static ETipoTransacao getTipoTransacao(Integer tipo) {
         for (ETipoTransacao e : ETipoTransacao.values()) {
-            if (e.getTipo()== tipo) {
+            if (e.getTipo().equals(tipo)) {
                 return e;
             }
         }
