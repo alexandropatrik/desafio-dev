@@ -1,7 +1,7 @@
 # CNAB-DEMO
 
 O projeto tem como objetivo permitir o upload de um arquivo CNAB, por meio de um formulário web, formatado no layout especificado.
-Após o upload, o arquiqvo é salvo temporariamente no servidor local e é parseado. Ao término do parser, os dados são persistidos em um banco de dados PostgreSQL.
+Após o upload, o arquivo é salvo temporariamente no servidor local e é parseado. Ao término do parser, os dados são persistidos em um banco de dados PostgreSQL.
 Na sequência o usuário é redirecionado para uma página que exibe as transações do banco de dados, agrupadas por loja, com o saldo da conta.
 
 ## Tecnologias
